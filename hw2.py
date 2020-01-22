@@ -10,7 +10,7 @@ U = +3
 # exponent -- an integer between L and U (inclusive)
 # sign -- either 1 or -1
 example_float = ([1, 0, 0, 1, 0], 1, 1)
-
+example_float2 = ([2, 2, 2, 2, 2], 1, 1)
 
 def is_valid_mantissa(int_lst,float_value):
     if int_lst[0] == 0 and float_value == 0:
@@ -76,7 +76,7 @@ def add_float(float1, float2):
     if shift >= PRECISION:
         return (mantissa1, max_expo, 1)
 
-    #float 1 exp >= float 2 exp
+    #mantissa1 is the mantissa with the higher exponent
     carry = 0
     i = 0 
     lim = 5 - shift 
@@ -85,24 +85,53 @@ def add_float(float1, float2):
     while(i < PRECISION):
         store = 0
         if i < lim:
-            print(str(mantissa1[PRECISION - 1 - i]) + '+' + str(mantissa2[PRECISION-1-i]))
+            
             sums = mantissa1[PRECISION - 1 - i] + mantissa2[PRECISION-1-i] + carry
             carry = sums // BASE
             store = sums%BASE
         else:
             sums = mantissa1[i1] + carry
-            carry = sums%BASE
-            store = sums // BASE
+            carry = sums // BASE
+            store = sums%BASE
         res = [store] + res
         print(res)
         i+=1
 
-        
+    if carry > 0:
+        res = [carry] + res
+    print(res)
+    i+=1    
 
 
     # Add your code here
-    return (res, max_expo, 1)
+    return (res[:5], max_expo, 1)
 
-v = add_float(example_float, example_float)
 
-print(v)
+
+def h1(x, n):
+    """Returns a list of the first n terms of the Taylor Series expansion of 1/(1-x)."""
+    return [pow(x,i) for i in range(n)]
+
+def h2(x, n):
+    """Returns a list of the first n terms of the Taylor Series expansion of e^x."""
+    return [pow(x,i)/math.factorial(i) for i in range(n)]
+
+ns = [20, 40, 60, 80, 100, 120, 140, 160]
+exp_est = [sum(h2(-30,n)) for n in ns]
+exp_est.sort()
+exp_estimates = exp_est
+
+def z(n):
+    a = pow(2.0, n) + 10.0
+    b = (pow(2.0, n) + 5.0) + 5.0
+    return a - b
+
+def find_nonzero_z(n):
+    result = []
+    for i in range(n):
+        if z(i) > 0:
+            result.append(i)
+    return result
+
+nonzero_zn = find_nonzero_z(1024)
+
