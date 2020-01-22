@@ -106,9 +106,10 @@ def add_float(float1, float2):
         #print(res)
         i+=1
 
-    if carry > 0 and max_expo == 3:
+    if carry > 0 and max_expo >= 3:
         raise ValueError()  
     elif carry > 0:
+        max_expo += 1
         res = [carry] + res
         res.pop()
     
@@ -146,9 +147,9 @@ def find_nonzero_z(n):
 
 nonzero_zn = find_nonzero_z(1024)
 
-a = ([1,0,0,0,1], 2, 1) 
-b = ([2,0,0,0,0], 2, 1)
-c = ([0,0,0,0,1], 2, 1) 
+a = ([0,0,0,0,1], 2, 1) 
+b = ([2,2,2,2,2], 2, 1)
+c = ([0,1,0,0,0], 3, 1) 
 
 x = add_float(a,b)
 y = add_float(b,c)
